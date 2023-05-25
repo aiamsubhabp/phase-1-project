@@ -8,13 +8,30 @@ dropdown.addEventListener('change', (event) => {
     fetch(`https://opentdb.com/api.php?amount=5&difficulty=${selectedDifficulty}&type=multiple`)
     .then(res => res.json())
     .then(data => {
-        let button = document.createElement('button')
-        button.innerText = 'abswerchasdf'
-        let answerContainer = document.getElementById('answer-choice')
-        answerContainer.append(button)
-        data.results.forEach(result => (
-            console.log(result.question)
-        ))
+        // let button = document.createElement('button')
+        // button.innerText = 'abswerchasdf'
+        // let answerContainer = document.getElementById('answer-choice')
+        // answerContainer.append(button)
+
+
+//display questions and answers on page
+        let questionContainer = document.getElementById('question-container')        
+        data.results.forEach(result => {
+            let p = document.createElement('p')
+            p.innerText =  result.question
+            questionContainer.append(p)
+
+            result.incorrect_answers.forEach(incorrectAnswer => {
+                let button = document.createElement('button')
+                button.innerText = incorrectAnswer
+                questionContainer.append(button)
+            })
+
+            let button = document.createElement('button')
+            button.innerText = result.correct_answer
+            questionContainer.append(button)
+
+        })
 
     })
 
