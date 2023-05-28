@@ -3,18 +3,14 @@ console.log(dropdown)
 
 
 // dropdown API call
+//change event listener
 dropdown.addEventListener('change', (event) => {
     let selectedDifficulty = event.target.value
     fetch(`https://opentdb.com/api.php?amount=5&difficulty=${selectedDifficulty}&type=multiple`)
     .then(res => res.json())
     .then(data => {
-        // let button = document.createElement('button')
-        // button.innerText = 'abswerchasdf'
-        // let answerContainer = document.getElementById('answer-choice')
-        // answerContainer.append(button)
 
-
-//display questions and answers on page
+        //display questions and answers on page
         let questionContainer = document.getElementById('question-container')        
         data.results.forEach(result => {
             let p = document.createElement('p')
@@ -26,12 +22,30 @@ dropdown.addEventListener('change', (event) => {
                 button.innerText = incorrectAnswer
                 questionContainer.append(button)
             })
-
+            //selecting button and selecting the right button.
             let button = document.createElement('button')
-            button.innerText = result.correct_answer
+            button.innerHTML = result.correct_answer
             questionContainer.append(button)
-
+            button.addEventListener('click', e => {
+                console.log(e.target)
+            })
         })
+        
+        //create submit form to submit answers
+        //submit event listener
+        let form = document.getElementById('quiz-form')
+        form.addEventListener('submit', e => {
+         e.preventDefault()
+         console.log('im workking')   
+        })
+
+
+        // let submitButton = document.createElement('button')
+        // submitButton.innerText = 'testing'
+        // questionContainer.append(submitButton)
+
+
+
 
     })
 
