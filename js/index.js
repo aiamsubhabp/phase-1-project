@@ -1,12 +1,26 @@
 let dropdown = document.getElementById('drop-down')
-console.log(dropdown)
 
+//function to shuffle array of answer choices
+const shuffleArray = array => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+  }
+
+// //function to check answer choices after submitted
+// let checkAnswers = () => {
+    
+// } 
+//use click event to clear answers
 
 // dropdown API call
 //change event listener
 dropdown.addEventListener('change', (event) => {
     let selectedDifficulty = event.target.value
-    fetch(`https://opentdb.com/api.php?amount=5&difficulty=${selectedDifficulty}&type=multiple`)
+    fetch(`https://opentdb.com/api.php?amount=3&difficulty=${selectedDifficulty}&type=multiple`)
     .then(res => res.json())
     .then(data => {
 
@@ -17,59 +31,59 @@ dropdown.addEventListener('change', (event) => {
             p.innerText =  result.question
             questionContainer.append(p)
 
+            //trying to get answer choices as radio buttons instead. will combine all answer choices into an array and shuffle for randomness.
+            let answerChoices = []
             result.incorrect_answers.forEach(incorrectAnswer => {
-                let button = document.createElement('button')
-                button.innerText = incorrectAnswer
-                questionContainer.append(button)
+                answerChoices.push(incorrectAnswer)   
             })
-            //selecting button and selecting the right button.
-            let button = document.createElement('button')
-            button.innerHTML = result.correct_answer
-            questionContainer.append(button)
-            button.addEventListener('click', e => {
-                console.log(e.target)
+
+            answerChoices.push(result.correct_answer)
+            shuffleArray(answerChoices)
+
+            answerChoices.forEach(answerChoice =>{
+                let label = document.createElement('label')
+                label.innerHTML = `${answerChoice} </br>`
+                let input = document.createElement('input')
+                input.type = 'radio'
+                //just using this as unique identifier so that it deselects when selecting a different radio button
+                input.name = result.question
+                input.value = answerChoice              
+                questionContainer.append(input)
+                questionContainer.append(label)
             })
-        })
-        
-        //create submit form to submit answers
+
+            //function to get the selected answers
+            
+            let selectedAnswers = []
+            function getSelectedAnswers(){
+            let selectedAnswers = []
+            let radioButtons = document.getElementsByName(result.question)
+            // console.log('length', radioButtons.length)
+            // console.log('radio', radioButtons)
+            for (let i = 0; i < radioButtons.length; i++){
+                if (radioButtons[i].checked) {
+                    selectedAnswers.push(radioButtons[i].value)
+                }
+            }
+            console.log(selectedAnswers)
+            }
+            
+            
+
+
+
+
+       //create submit form to submit answers
         //submit event listener
-        let form = document.getElementById('quiz-form')
-        form.addEventListener('submit', e => {
-         e.preventDefault()
-         console.log('im workking')   
-        })
+            let form = document.getElementById('quiz-form')
+            form.addEventListener('submit', e => {
+             e.preventDefault()
+             getSelectedAnswers()
+             
+            })
+         })
 
-
-        // let submitButton = document.createElement('button')
-        // submitButton.innerText = 'testing'
-        // questionContainer.append(submitButton)
-
-
-
-
+ 
+       
     })
-
 })
-
-
-
-// let questions = []
-// const question = document.getElementById('question')
-// fetch('https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple')
-//     .then(res => res.json())
-//     .then(questionArrays => {
-//         console.log(questionArrays)
-//         questions = questionArrays.results.map(questionArray => {
-//             let formattedQuestion = {
-//                 question: questionArray.question
-//             }
-        
-//             console.log('formatted qystuiob', formattedQuestion)
-
-//         })
-//     })
-
-
-let response = {"response_code":0,"results":[{"category":"Sports","type":"multiple","difficulty":"easy","question":"In what sport is a &quot;shuttlecock&quot; used?","correct_answer":"Badminton","incorrect_answers":["Table Tennis","Rugby","Cricket"]},{"category":"Entertainment: Cartoon & Animations","type":"multiple","difficulty":"easy","question":"Which of these is NOT a Disney cartoon character?","correct_answer":"Daffy Duck","incorrect_answers":["Donald Duck","Daisy Duck","Scrooge McDuck"]},{"category":"Entertainment: Video Games","type":"multiple","difficulty":"easy","question":"How many times do you fight Gilgamesh in &quot;Final Fantasy 5&quot;?","correct_answer":"6","incorrect_answers":["4","5","3"]},{"category":"Entertainment: Cartoon & Animations","type":"multiple","difficulty":"easy","question":"What is lost in Hawaiian and is also the name of a little girl in a 2002 film which features a alien named &quot;Stitch&quot;?","correct_answer":"Lilo","incorrect_answers":["Lolo","Lucy","Lulu"]},{"category":"Entertainment: Books","type":"multiple","difficulty":"easy","question":"What was Sir Handel&#039;s original name in &quot;The Railway Series&quot; and it&#039;s animated counterpart &quot;Thomas and Friends?&quot;","correct_answer":"Falcon","incorrect_answers":["Eagle","Kyte","Swallow"]}]}
-
-
