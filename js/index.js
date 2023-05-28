@@ -25,7 +25,9 @@ dropdown.addEventListener('change', (event) => {
     .then(data => {
 
         //display questions and answers on page
-        let questionContainer = document.getElementById('question-container')        
+        let questionContainer = document.getElementById('question-container')  
+        //line of code below makes it so when user changes difficulty, the previous questions are replaced, instead of new questions added on.
+        questionContainer.innerHTML = ''      
         data.results.forEach(result => {
             let p = document.createElement('p')
             p.innerText =  result.question
@@ -54,12 +56,12 @@ dropdown.addEventListener('change', (event) => {
 
             //function to get the selected answers
             
-            let selectedAnswers = []
+            
             function getSelectedAnswers(){
             let selectedAnswers = []
-            let radioButtons = document.getElementsByName(result.question)
+            let radioButtons = document.getElementsByTagName('input')
             // console.log('length', radioButtons.length)
-            // console.log('radio', radioButtons)
+            console.log('radio', radioButtons)
             for (let i = 0; i < radioButtons.length; i++){
                 if (radioButtons[i].checked) {
                     selectedAnswers.push(radioButtons[i].value)
@@ -67,6 +69,7 @@ dropdown.addEventListener('change', (event) => {
             }
             console.log(selectedAnswers)
             }
+            
             
             
 
@@ -79,7 +82,6 @@ dropdown.addEventListener('change', (event) => {
             form.addEventListener('submit', e => {
              e.preventDefault()
              getSelectedAnswers()
-             
             })
          })
 
@@ -87,3 +89,17 @@ dropdown.addEventListener('change', (event) => {
        
     })
 })
+
+//toggle dark and light mode
+
+let darkModeButton = document.getElementById('toggleDarkMode')
+darkModeButton.addEventListener('click', (e) => {
+    let body = document.body
+    body.classList.toggle('dark-mode')
+})
+
+    // let element = document.body
+    // element.classList.toggle('dark-mode')
+
+
+    

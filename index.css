@@ -1,4 +1,4 @@
-.choice-container{
+/* .choice-container{
     display: flex;
     margin-bottom: 0.5rem;
     width: 100%;
@@ -15,4 +15,16 @@
 
 .choice-text{
     padding: 1.5rem;
+} */
+
+body {
+    padding: 25px;
+    background-color: rgba(187, 255, 238, 0.945);
+    color: rgb(20, 0, 15);
+    font-size: 20px;
+}
+
+.dark-mode {
+    background-color: black;
+    color: rgb(166, 228, 155);
 }
