@@ -10,12 +10,6 @@ const shuffleArray = array => {
     }
   }
 
-// //function to check answer choices after submitted
-// let checkAnswers = () => {
-    
-// } 
-//use click event to clear answers
-
 // dropdown API call
 //change event listener
 dropdown.addEventListener('change', (event) => {
@@ -33,7 +27,7 @@ dropdown.addEventListener('change', (event) => {
             p.innerText =  result.question
             questionContainer.append(p)
 
-            //trying to get answer choices as radio buttons instead. will combine all answer choices into an array and shuffle for randomness.
+            //combine all answer choices into an array and shuffle for randomness.
             let answerChoices = []
             result.incorrect_answers.forEach(incorrectAnswer => {
                 answerChoices.push(incorrectAnswer)   
@@ -53,44 +47,36 @@ dropdown.addEventListener('change', (event) => {
                 questionContainer.append(input)
                 questionContainer.append(label)
             })
+        })
 
-            //function to get the selected answers
-            
-            
-            function getSelectedAnswers(){
-            let selectedAnswers = []
-            let radioButtons = document.getElementsByTagName('input')
-            // console.log('length', radioButtons.length)
-            console.log('radio', radioButtons)
+        //create submit form to submit answers
+        //submit event listener
+        let form = document.getElementById('quiz-form')
+        form.addEventListener('submit', e => {
+        e.preventDefault()
+        let selectedAnswers = []
+        let radioButtons = document.getElementsByTagName('input')
             for (let i = 0; i < radioButtons.length; i++){
                 if (radioButtons[i].checked) {
                     selectedAnswers.push(radioButtons[i].value)
                 }
             }
-            console.log(selectedAnswers)
-            }
-            
-            
-            
 
-
-
-
-       //create submit form to submit answers
-        //submit event listener
-            let form = document.getElementById('quiz-form')
-            form.addEventListener('submit', e => {
-             e.preventDefault()
-             getSelectedAnswers()
+        let correctAnswers = []
+            data.results.forEach(result => {
+                correctAnswers.push(result.correct_answer)
             })
-         })
 
- 
-       
+        if(selectedAnswers.toString() == correctAnswers.toString()){
+            console.alert('Congratulations! You got them all right!')
+            } else{
+            alert('Sorry, you missed some questions. Please try again')
+            }
+        })
     })
 })
 
-//toggle dark and light mode
+//toggle dark and light mode... click event
 
 let darkModeButton = document.getElementById('toggleDarkMode')
 darkModeButton.addEventListener('click', (e) => {
@@ -98,8 +84,6 @@ darkModeButton.addEventListener('click', (e) => {
     body.classList.toggle('dark-mode')
 })
 
-    // let element = document.body
-    // element.classList.toggle('dark-mode')
 
 
     
