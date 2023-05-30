@@ -14,7 +14,7 @@ const shuffleArray = array => {
 //change event listener
 dropdown.addEventListener('change', (event) => {
     let selectedDifficulty = event.target.value
-    fetch(`https://opentdb.com/api.php?amount=3&difficulty=${selectedDifficulty}&type=multiple`)
+    fetch(`https://opentdb.com/api.php?amount=5&difficulty=${selectedDifficulty}&type=multiple`)
     .then(res => res.json())
     .then(data => {
 
